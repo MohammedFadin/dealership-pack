@@ -1,0 +1,29 @@
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: dealership-api-backend
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: moefadin/dealership-api-dev:latest
+  pullPolicy: Always
+  stack: nodejs-loopback
+  service:
+    type: ClusterIP
+    port: 3000
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /ready
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /live
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true
+  createKnativeService: false
